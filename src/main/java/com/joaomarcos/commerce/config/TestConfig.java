@@ -1,6 +1,6 @@
 package com.joaomarcos.commerce.config;
 
-import com.joaomarcos.commerce.Repositories.UserRepository;
+import com.joaomarcos.commerce.repositories.UserRepository;
 import com.joaomarcos.commerce.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

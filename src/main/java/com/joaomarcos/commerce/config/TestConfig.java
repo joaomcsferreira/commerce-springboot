@@ -1,14 +1,8 @@
 package com.joaomarcos.commerce.config;
 
-import com.joaomarcos.commerce.entities.Category;
-import com.joaomarcos.commerce.entities.Order;
-import com.joaomarcos.commerce.entities.Product;
+import com.joaomarcos.commerce.entities.*;
 import com.joaomarcos.commerce.entities.enums.OrderStatus;
-import com.joaomarcos.commerce.repositories.CategoryRespository;
-import com.joaomarcos.commerce.repositories.OrderRepository;
-import com.joaomarcos.commerce.repositories.ProductRepository;
-import com.joaomarcos.commerce.repositories.UserRepository;
-import com.joaomarcos.commerce.entities.User;
+import com.joaomarcos.commerce.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +26,9 @@ public class TestConfig implements CommandLineRunner {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -66,5 +63,12 @@ public class TestConfig implements CommandLineRunner {
 
         userRepository.saveAll(Arrays.asList(firstUser, secondUser));
         orderRepository.saveAll(Arrays.asList(firstOrder, secondOrder, thirdOrder));
+
+        OrderItem firstOrderItem = new OrderItem(firstOrder, firstProduct, 2, firstProduct.getPrice());
+        OrderItem secondOrderItem = new OrderItem(firstOrder, thirdProduct, 1, thirdProduct.getPrice());
+        OrderItem thirdOrderItem = new OrderItem(secondOrder, thirdProduct, 2, thirdProduct.getPrice());
+        OrderItem fourthOrderItem = new OrderItem(thirdOrder, fifthProduct, 2, fifthProduct.getPrice());
+
+        orderItemRepository.saveAll(Arrays.asList(firstOrderItem, secondOrderItem, thirdOrderItem, fourthOrderItem));
     }
 }

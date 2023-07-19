@@ -4,6 +4,7 @@ import com.joaomarcos.commerce.repositories.UserRepository;
 import com.joaomarcos.commerce.entities.User;
 import com.joaomarcos.commerce.services.exceptions.DatabaseException;
 import com.joaomarcos.commerce.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -45,11 +46,15 @@ public class UserService {
     }
 
     public User update(Long id, User user) {
-        User updateUser = repository.getReferenceById(id);
+        try {
+            User updateUser = repository.getReferenceById(id);
 
-        updateData(updateUser, user);
+            updateData(updateUser, user);
 
-        return repository.save(updateUser);
+            return repository.save(updateUser);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException(id);
+        }
     }
 
     private void updateData(User updateUser, User user) {
